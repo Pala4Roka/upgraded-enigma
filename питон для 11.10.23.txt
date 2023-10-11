@@ -28,6 +28,10 @@ print(f"{num_cats} кошек {num_mice_eaten:.2f} мыши за {num_hours} ч�
 3 задание
 
 #Определите диапазон значений ASCII (например, от 32 до 127 для печатных символов).
+
+
+
+2 задача
 start_ascii = 32
 end_ascii = 127
 
@@ -48,4 +52,102 @@ area = 0.5 * (base1 + base2) * height
 
 
 print(f"Площадь трапеции равна {area:.2f}")
+
+1 задача 
+import datetime
+
+
+current_datetime = datetime.datetime.now()
+
+
+print("Current Date and Time:", current_datetime)
+
+
+increased_year = current_datetime.year + 1
+
+increased_date = current_datetime + datetime.timedelta(days=2)
+
+
+print("Increased Date and Time:", increased_date.replace(year=increased_year))
+2 задача 
+import math
+
+class GeometricShape:
+    def volume(self):
+        pass
+
+    def surface_area(self):
+        pass
+
+class Cube(GeometricShape):
+    def __init__(self, side_length):
+        self.side_length = side_length
+
+    def volume(self):
+        return self.side_length ** 3
+
+    def surface_area(self):
+        return 6 * (self.side_length ** 2)
+
+class Cylinder(GeometricShape):
+    def __init__(self, radius, height):
+        self.radius = radius
+        self.height = height
+
+    def volume(self):
+        return math.pi * (self.radius ** 2) * self.height
+
+    def surface_area(self):
+        return (2 * math.pi * self.radius * self.height) + (2 * math.pi * (self.radius ** 2))
+
+class Tetrahedron(GeometricShape):
+    def __init__(self, edge_length):
+        self.edge_length = edge_length
+
+    def volume(self):
+        return (math.sqrt(2) / 12) * (self.edge_length ** 3)
+
+    def surface_area(self):
+        return math.sqrt(3) * (self.edge_length ** 2)
+
+def print_menu():
+    print("1. Куб")
+    print("2. Цилиедр")
+    print("3. Тетра")
+
+def get_user_choice():
+    choice = input("Выбери (1-3): ")
+    while choice not in ['1', '2', '3']:
+        choice = input("Не то,дргое (1-3): ")
+    return int(choice)
+
+def get_dimensions(shape_name):
+    if shape_name == "Куб":
+        side_length = float(input(": "))
+        return side_length
+    elif shape_name == "Цилиндр":
+        radius = float(input(": "))
+        height = float(input(": "))
+        return radius, height
+    elif shape_name == "Тетра":
+        edge_length = float(input(": "))
+        return edge_length
+
+def main():
+    print_menu()
+    choice = get_user_choice()
+
+    if choice == 1:
+        shape = Cube(get_dimensions("Куб"))
+    elif choice == 2:
+        shape = Cylinder(*get_dimensions("Цилиндр"))
+    elif choice == 3:
+        shape = Tetrahedron(get_dimensions("Тетра"))
+
+    print("Обём:", shape.volume())
+    print("Плозадь поверхнсти:", shape.surface_area())
+
+if __name__ == "__main__":
+    main()
+
 
