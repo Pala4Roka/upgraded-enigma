@@ -1,0 +1,51 @@
+1 задание 
+import math
+
+# Введите радиус и высоту от пользователя
+radius = float(input("Введите радиус основания цилиндра: "))
+height = float(input("Введите высоту цилиндра: "))
+
+# Рассчитайте объем цилиндра
+volume = math.pi * (radius ** 2) * height
+
+# Отобразить результат
+print(f"Объем цилиндра равен {volume:.2f} кубические единицы")
+
+2 задание
+# Определите известную скорость, с которой кошки поедают мышей
+cats_per_hour = 1.5 / 1.5  # Полторы кошки за полтора часа
+
+
+num_cats = int(input("Число кошек: "))
+num_hours = float(input("Количество часов: "))
+
+
+num_mice_eaten = cats_per_hour * num_cats * num_hours
+
+
+print(f"{num_cats} кошек {num_mice_eaten:.2f} мыши за {num_hours} часов.")
+
+3 задание
+
+#Определите диапазон значений ASCII (например, от 32 до 127 для печатных символов).
+start_ascii = 32
+end_ascii = 127
+
+# Выполнить итерацию по диапазону и отобразить символы и их значения в формате ASCII
+for ascii_value in range(start_ascii, end_ascii + 1):
+    character = chr(ascii_value)
+    print(f"Char: {character}, ASCII число: {ascii_value}")
+
+5 задание
+
+
+base1 = float(input("Enter the length of the first base: "))
+base2 = float(input("Enter the length of the second base: "))
+height = float(input("Enter the height of the trapezoid: "))
+
+
+area = 0.5 * (base1 + base2) * height
+
+
+print(f"Площадь трапеции равна {area:.2f}")
+
