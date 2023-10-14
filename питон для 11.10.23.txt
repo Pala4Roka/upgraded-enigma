@@ -150,4 +150,71 @@ def main():
 if __name__ == "__main__":
     main()
 
+3 задание
 
+
+class Employee:
+    def init(self, full_name, position, company):
+        self.full_name = full_name
+        self.position = position
+        self.company = company
+
+class Company:
+    def init(self, name):
+        self.name = name
+        self.employees = []
+
+    def add_employee(self, employee):
+        self.employees.append(employee)
+
+    def remove_employee(self, employee):
+        self.employees.remove(employee)
+
+    def count_employees(self):
+        return len(self.employees)
+
+companies = {}
+
+while True:
+    print("\nОпции:")
+    print("1. Добавить сотрудника")
+    print("2. Удолить сотрудника")
+    print("3. Сисок сотрудников")
+    print("4. Список компании с подсчётом сотрудников")
+    print("5. Выйти")
+
+    choice = input("Введите: ")
+
+    if choice == "1":
+        full_name = input("Полное Ф.И.О сотрудника: ")
+        position = input("Его позиция: ")
+        company_name = input("Имя компании: ")
+
+        if company_name not in companies:
+            companies[company_name] = Company(company_name)
+
+        employee = Employee(full_name, position, companies[company_name])
+        companies[company_name].add_employee(employee)
+
+    elif choice == "2":
+        full_name = input("Введите полное Ф.И.О сотрудника для того чтобы удалить его из списка: ")
+        for company in companies.values():
+            for employee in company.employees:
+                if employee.full_name == full_name:
+                    company.remove_employee(employee)
+                    break
+
+    elif choice == "3":
+        for company in companies.values():
+            for employee in company.employees:
+                print(f"Ф.И.О : {employee.full_name}, Позиция: {employee.position}, Компания: {company.name}")
+
+    elif choice == "4":
+        for company in companies.values():
+            print(f"Компания: {company.name}, Счёт сотруднков: {company.count_employees()}")
+
+    elif choice == "5":
+        break
+
+    else:
+        print("Невернное действие.Пожалуйста попробуйте снова.")
