@@ -218,3 +218,108 @@ while True:
 
     else:
         print("Невернное действие.Пожалуйста попробуйте снова.")
+4 лаба 
+1)
+
+database = {}
+
+
+unique_id = 1
+
+def add_record():
+    global unique_id
+    full_name = input("ФИО: ")
+    gender = input("Пол: ")
+    age = input("Возраст: ")
+    company_id = input("ID компании: ")
+
+    
+    database[unique_id] = {
+        "ФИО": full_name,
+        "Пол": gender,
+        "Возраст": age,
+        "ID компании": company_id
+    }
+    unique_id += 1
+    print("Записть добавлена успешно.")
+
+def list_records():
+    print("\nЗаписанные в бд записи:")
+    for record_id, record in database.items():
+        print(f"ID: {record_id}, ФИО: {record['ФИО']}, Пол: {record['Пол']}, Возраст: {record['Возраст']},  ID компании: {record['ID компании']}")
+
+while True:
+    print("\nОпции:")
+    print("1. Добавить запись")
+    print("2. Список записи")
+    print("3. Выход")
+
+    choice = input("Ваш выбор: ")
+
+    if choice == "1":
+        add_record()
+    elif choice == "2":
+        list_records()
+    elif choice == "3":
+        break
+    else:
+        print("Неверный выбор, повторите ещё раз.")
+
+
+
+
+database = []
+
+def add_record():
+    title = input("Заголовок: ")
+    abstract_content = input("Текст статьи: ")
+    author_id = input("ID Автора: ")
+    menu_id = input("ID Меню : ")
+
+
+    record = {
+        "ID": len(database) + 1,
+        "Заголовок": title,
+        "Текст статьи": abstract_content,
+        "ID Автора": author_id,
+        "ID Меню": menu_id
+    }
+    
+    database.append(record)
+    print("Запись внесена успешно.")
+
+def list_records():
+    print("\nЗаписи в базе данных:")
+    for record in database:
+        print(f"ID: {record['ID']}, Заголовок: {record['Заголовок']}, ID Автора: {record['ID Автора']}, ID Меню: {record['ID Меню']}")
+
+def list_authors_with_article_count():
+    author_count = {}
+    for record in database:
+        author_id = record["ID Автора"]
+        author_count[author_id] = author_count.get(author_id, 0) + 1
+
+    print("\nАвторы более чем с 2 записями:")
+    for author_id, count in author_count.items():
+        if count > 2:
+            print(f"ID Автора: {author_id}, Число записей: {count}")
+
+while True:
+    print("\nОпции:")
+    print("1. Добавить запись")
+    print("2. Список записей")
+    print("3. Список с авторами с более 2 статьями")
+    print("4. Выход")
+
+    choice = input("Ваш выбор: ")
+
+    if choice == "1":
+        add_record()
+    elif choice == "2":
+        list_records()
+    elif choice == "3":
+        list_authors_with_article_count()
+    elif choice == "4":
+        break
+    else:
+        print("неверный выбор, попробуйте ещё раз.")
