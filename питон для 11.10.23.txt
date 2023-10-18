@@ -323,3 +323,46 @@ while True:
         break
     else:
         print("неверный выбор, попробуйте ещё раз.")
+
+
+
+5 лаба
+
+def calculate_function_values(a, b, c, d, f, x_values):
+    y_values = [a * x**4 + b * x**3 + c * x**2 + d * x + f for x in x_values]
+    return y_values
+
+def draw_graph(a, b, c, d, f, x_range, num_points):
+    x_min, x_max = x_range
+    step = (x_max - x_min) / (num_points - 1)
+    x_values = [x_min + i * step for i in range(num_points)]
+    y_values = calculate_function_values(a, b, c, d, f, x_values)
+
+    y_min, y_max = min(y_values), max(y_values)
+
+    for row in range(30, 0, -1):
+        y = y_min + row * (y_max - y_min) / 30
+        line = ""
+        for x in x_values:
+            if abs(y - calculate_function_values(a, b, c, d, f, [x])[0]) < 0.025:
+                line += "o"
+            else:
+                line += " "
+        print(line)
+
+def main():
+    a = float(input("Значение'a': "))
+    b = float(input("Значение'b': "))
+    c = float(input("Значение'c': "))
+    d = float(input("Значение'd': "))
+    f = float(input("Значение'f': "))
+
+    x_min = float(input(" Минимум для  x-axis range: "))
+    x_max = float(input("Максимум x-axis range: "))
+
+    num_points = int(input("Введите количество точек для построения графика: "))
+
+    draw_graph(a, b, c, d, f, (x_min, x_max), num_points)
+
+if __name__ == "__main__":
+    main()
