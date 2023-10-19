@@ -560,6 +560,46 @@ while running:
     insertion_thread._target = insertion_thread.sort
     quick_sort_thread._target = quick_sort_thread.sort
     bubble_sort_thread._target = bubble_sort_thread.sort
-    time.sleep(SLEEP_TIME)
+    time.sleep(SLEEP_TIME
 
 pygame.quit()
+import numpy as np
+import matplotlib.pyplot as plt
+
+def calculate_function_values(a, b, c, d, f, x_range):
+    x = np.linspace(x_range[0], x_range[1], num=1000)  # Adjust 'num' for the number of points
+    y = a * x**4 + b * x**3 + c * x**2 + d * x + f
+    return x, y
+
+def plot_graph(x, y, color, linestyle, linewidth):
+    plt.plot(x, y, color=color, linestyle=linestyle, linewidth=linewidth)
+
+def main():
+    a = float(input("Enter the 'a' coefficient: "))
+    b = float(input("Enter the 'b' coefficient: "))
+    c = float(input("Enter the 'c' coefficient: "))
+    d = float(input("Enter the 'd' coefficient: "))
+    f = float(input("Enter the 'f' coefficient: "))
+
+    x_range = [float(input("Enter the starting x value: ")), float(input("Enter the ending x value: ")]
+    y_range = [float(input("Enter the starting y value: ")), float(input("Enter the ending y value: ")]
+
+    color = input("Enter the color for the graph line (e.g., 'red', 'blue'): ")
+    linestyle = input("Enter the linestyle ('-', '--', '-.', ':'): ")
+    linewidth = float(input("Enter the line width: "))
+
+    x, y = calculate_function_values(a, b, c, d, f, x_range)
+
+    plt.figure()
+    plt.xlim(x_range)
+    plt.ylim(y_range)
+    plt.xlabel('x')
+    plt.ylabel('y')
+    plt.title('Graph of a Polynomial Function')
+    
+    plot_graph(x, y, color, linestyle, linewidth)
+    
+    plt.show()
+
+if __name__ == "__main__":
+    main()
