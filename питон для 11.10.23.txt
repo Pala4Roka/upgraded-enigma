@@ -366,3 +366,200 @@ def main():
 
 if __name__ == "__main__":
     main()
+
+
+
+6 kf,f
+
+
+
+import random
+import time
+
+def get_input_vector():
+    while True:
+        try:
+            n = int(input("Введите количество элементов в векторе: "))
+            break
+        except ValueError:
+            print("Неверный ввод. Пожалуйста, введите целое число.")
+
+    vector = []
+    for _ in range(n):
+        value = random.randint(1, 1000)  
+        vector.append(value)
+
+    return vector
+
+def generate_random_vector(n, unique=False):
+    if unique:
+        return random.sample(range(1, 100), n)
+    else:
+        return [random.randint(1, 100) for _ in range(n)]
+
+def display_vectors(original, sorted_lib, sorted_custom, compare_count):
+    print("Оригинальный вектор:", original[:compare_count])
+    print("Отсортированный вектор (библиотека):", sorted_lib[:compare_count])
+    print("Отсортированный вектор (пользовательский):", sorted_custom[:compare_count])
+
+def custom_sort(vector):
+    return sorted(vector)
+
+def main():
+    choice = input("Выберите опцию:\n1. Введите вектор с клавиатуры\n2. Сгенерируйте случайный вектор\n3. Сгенерировать случайный вектор с уникальными значениями\n")
+
+    if choice == '1':
+        original_vector = get_input_vector()
+    elif choice == '2':
+        n = int(input("Введите количество элементов в векторе: "))
+        original_vector = generate_random_vector(n)
+    elif choice == '3':
+        n = int(input("Введите количество элементов в векторе: "))
+        original_vector = generate_random_vector(n, unique=True)
+    else:
+        print("Неверный выбор. Пожалуйста, введите '1','2'или'3'время сортировки библиотеки в секундах.")
+        return
+
+    compare_count = 10 if len(original_vector) < 10 else min(10, len(original_vector))
+
+    
+    start_time_lib = time.time()
+    sorted_lib = sorted(original_vector)
+    end_time_lib = time.time()
+
+    start_time_custom = time.time()
+    sorted_custom = custom_sort(original_vector)
+    end_time_custom = time.time()
+
+    display_vectors(original_vector, sorted_lib, sorted_custom, compare_count)
+
+    print("время сортировки библиотеки:", end_time_lib - start_time_lib, "в секундах")
+    print("Время для пользовательской сортировки:", end_time_custom - start_time_custom, " секунды")
+
+if __name__ == "__main__":
+    main()
+
+
+
+import pygame
+import threading
+import random
+import time
+
+
+pygame.init()
+
+
+WIDTH, HEIGHT = 800, 400
+ARRAY_SIZE = 100
+ARRAY_HEIGHT = HEIGHT - 20
+BAR_WIDTH = WIDTH // ARRAY_SIZE
+WHITE = (255, 255, 255)
+BLACK = (0, 0, 0)
+RED = (255, 0, 0)
+SLEEP_TIME = 0.01 
+
+
+class SortingThread(threading.Thread):
+    def __init__(self, arr):
+        super().__init__()
+        self.arr = arr
+        self.sorted = False
+
+    def run(self):
+        self.sort()
+        self.sorted = True
+
+    def sort(self):
+        pass
+
+
+class InsertionSortThread(SortingThread):
+    def sort(self):
+        for i in range(1, len(self.arr)):
+            key = self.arr[i]
+            j = i - 1
+            while j >= 0 and key < self.arr[j]:
+                self.arr[j + 1] = self.arr[j]
+                j -= 1
+            self.arr[j + 1] = key
+
+
+class QuickSortThread(SortingThread):
+    def sort(self):
+        def partition(arr, low, high):
+            i = low - 1
+            pivot = arr[high]
+            for j in range(low, high):
+                if arr[j] <= pivot:
+                    i += 1
+                    arr[i], arr[j] = arr[j], arr[i]
+            arr[i + 1], arr[high] = arr[high], arr[i + 1]
+            return i + 1
+
+        def quick_sort(arr, low, high):
+            if low < high:
+                pi = partition(arr, low, high)
+                quick_sort(arr, low, pi - 1)
+                quick_sort(arr, pi + 1, high)
+
+        quick_sort(self.arr, 0, len(self.arr) - 1)
+
+
+class BubbleSortThread(SortingThread):
+    def sort(self):
+        n = len(self.arr)
+        for i in range(n):
+            for j in range(0, n - i - 1):
+                if self.arr[j] > self.arr[j + 1]:
+                    self.arr[j], self.arr[j + 1] = self.arr[j + 1], self.arr[j]
+
+
+data = [random.randint(1, ARRAY_HEIGHT) for _ in range(ARRAY_SIZE)]
+original_data = data.copy()
+
+
+screen = pygame.display.set_mode((WIDTH, HEIGHT))
+pygame.display.set_caption("Multithreaded Sorting")
+
+
+insertion_thread = InsertionSortThread(data.copy())
+quick_sort_thread = QuickSortThread(data.copy())
+bubble_sort_thread = BubbleSortThread(data.copy())
+
+
+insertion_thread.start()
+quick_sort_thread.start()
+bubble_sort_thread.start()
+
+running = True
+while running:
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            running = False
+
+
+    screen.fill(WHITE)
+
+    for i, value in enumerate(original_data):
+        pygame.draw.rect(screen, BLACK, (i * BAR_WIDTH, HEIGHT - value, BAR_WIDTH, value))
+
+    if insertion_thread.sorted:
+        for i, value in enumerate(insertion_thread.arr):
+            pygame.draw.rect(screen, RED, (i * BAR_WIDTH, HEIGHT - value, BAR_WIDTH, value))
+    if quick_sort_thread.sorted:
+        for i, value in enumerate(quick_sort_thread.arr):
+            pygame.draw.rect(screen, BLACK, (i * BAR_WIDTH, HEIGHT - value, BAR_WIDTH, value))
+    if bubble_sort_thread.sorted:
+        for i, value in enumerate(bubble_sort_thread.arr):
+            pygame.draw.rect(screen, BLACK, (i * BAR_WIDTH, HEIGHT - value, BAR_WIDTH, value))
+
+    pygame.display.flip()
+
+
+    insertion_thread._target = insertion_thread.sort
+    quick_sort_thread._target = quick_sort_thread.sort
+    bubble_sort_thread._target = bubble_sort_thread.sort
+    time.sleep(SLEEP_TIME)
+
+pygame.quit()
