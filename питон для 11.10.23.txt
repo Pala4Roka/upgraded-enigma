@@ -603,3 +603,127 @@ def main():
 
 if __name__ == "__main__":
     main()
+
+
+7(1)
+import matplotlib.pyplot as plt
+import numpy as np
+import random
+import threading
+import time
+
+class ArraySorting:
+    def __init__(self):
+        self.array = np.array([])
+    
+    def fill_random(self, size):
+        self.array = np.random.randint(0, 100, size)
+    
+    def display_array(self):
+        plt.bar(range(len(self.array)), self.array, color='blue')
+        plt.show()
+    
+    def sort(self):
+        raise NotImplementedError("Sort method must be implemented in the derived class.")
+
+class InsertionSort(ArraySorting):
+    def sort(self):
+        # Implement Insertion Sort algorithm
+        for i in range(1, len(self.array)):
+            key = self.array[i]
+            j = i - 1
+            while j >= 0 and key < self.array[j]:
+                self.array[j + 1] = self.array[j]
+                j -= 1
+            self.array[j + 1] = key
+
+class QuickSort(ArraySorting):
+    def sort(self):
+        # Implement Quick Sort algorithm
+        def partition(arr, low, high):
+            pivot = arr[high]
+            i = low - 1
+            for j in range(low, high):
+                if arr[j] < pivot:
+                    i += 1
+                    arr[i], arr[j] = arr[j], arr[i]
+            arr[i + 1], arr[high] = arr[high], arr[i + 1]
+            return i + 1
+
+        def quick_sort(arr, low, high):
+            if low < high:
+                pi = partition(arr, low, high)
+                quick_sort(arr, low, pi - 1)
+                quick_sort(arr, pi + 1, high)
+
+        quick_sort(self.array, 0, len(self.array) - 1)
+
+class CustomSort(ArraySorting):
+    def sort(self):
+        # Implement your custom sorting algorithm
+        # For example, you could implement a modified version of bubble sort, etc.
+        pass
+
+def sorting_thread(sorting_obj, speed):
+    sorting_obj.sort()
+    time.sleep(speed)
+    sorting_obj.display_array()
+
+def main():
+    size = 1000
+    original_array = np.random.randint(0, 100, size)
+
+    # Create sorting objects
+    insertion_sort = InsertionSort()
+    insertion_sort.array = np.copy(original_array)
+    quick_sort = QuickSort()
+    quick_sort.array = np.copy(original_array)
+    custom_sort = CustomSort()
+    custom_sort.array = np.copy(original_array)
+
+    # Start sorting threads with different speeds
+    thread1 = threading.Thread(target=sorting_thread, args=(insertion_sort, 2))
+    thread2 = threading.Thread(target=sorting_thread, args=(quick_sort, 1))
+    thread3 = threading.Thread(target=sorting_thread, args=(custom_sort, 0.5))
+
+    thread1.start()
+    thread2.start()
+    thread3.start()
+
+if __name__ == "__main__":
+    main()
+
+
+8(1)
+num_ratings = int(input("Enter the number of ratings: "))
+ratings = []
+for i in range(num_ratings):
+    rating = float(input(f"Enter rating {i + 1}: "))
+    ratings.append(rating)
+if num_ratings > 0:
+    average_rating = sum(ratings) / num_ratings
+else:
+    average_rating = 0.0
+print("Оценки:")
+for i, rating in enumerate(ratings, 1):
+    print(f"Оценка {i}: {rating}")
+print(f"Средняя оценка: {average_rating}")
+8(2)
+Z = [2, -5, 10, 0, 15, -3, 7, 0, 4, 6, -8, -10, 3, -1, 9, -2, 8, 2, -9, 15]
+smallest_positive = None
+for element in Z:
+    if element > 0:
+        if smallest_positive is None or element < smallest_positive:
+            smallest_positive = element
+print("Имя входной переменной: Z")
+print("Имя выходной переменной: наименьший положительный результат")
+print("Наименьший положительный элемент:", smallest_positive)
+
+8(3)
+integer_list = []
+for i in range(15):
+    num = int(input(f"Enter integer {i + 1}: "))
+    integer_list.append(num)
+sorted_list = sorted(integer_list)
+print(f"Входное целое число: целочисленный список = {integer_list}")
+print(f"Отсортированные целые числа (в порядке возрастания): отсортированный_лист = {sorted_list}")
